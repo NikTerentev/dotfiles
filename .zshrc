@@ -8,7 +8,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="gentoo"
+ZSH_THEME="garyblessington"
+# garyblessington
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -111,5 +112,32 @@ bindkey '^[[1;3D' backward-word    # Option + ←
 bindkey '^[[1;3C' forward-word     # Option + →
 
 export PATH="$HOME/.config/emacs/bin:$PATH"
-export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
-export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
+# export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+# export PATH="/opt/homebrew/opt/llvm@20/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
+# TMP!!!
+export CLASSPATH=$CLASSPATH:/Users/terentevnikita/Documents/programming/AgentsWorkspace/lib/jade.jar
+# export PYTHONPATH=".:$PYTHONPATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/terentevnikita/.lmstudio/bin"
+# End of LM Studio CLI section
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
+#         . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# <<< conda initialize <<<
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"

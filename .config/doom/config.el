@@ -1,8 +1,11 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;;
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+(after! python
+  (set-formatter! 'ruff :modes '(python-mode python-ts-mode)))
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
@@ -33,7 +36,13 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tokyo-night)
+;; (setq doom-theme 'doom-tomorrow-night)
+;; (setq doom-theme 'gruber-darker)
+;; (setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-homage-black)
+;; (setq doom-theme 'gruber-darker)
+;;(setq doom-theme 'doom-tokyo-night)
+(setq doom-theme 'doom-sourcerer)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -48,18 +57,14 @@
 ;; To enable, run display-fill-column-indicator-mode
 (setopt display-fill-column-indicator-column 80)
 
-(setq lsp-pyright-langserver-command "basedpyright")
-(require 'flymake-ruff)
-(add-hook 'python-mode-hook #'flymake-ruff-load)
-
 (setq-default evil-escape-key-sequence "jk")
 
 (add-to-list 'display-buffer-alist
-  '((derived-mode . flycheck-error-list-mode)
-     (display-buffer-reuse-window display-buffer-below-selected)
-     (window-height . 0.3)
-     (dedicated . t)
-     (preserve-size . (t . t))))
+             '((derived-mode . flycheck-error-list-mode)
+               (display-buffer-reuse-window display-buffer-below-selected)
+               (window-height . 0.3)
+               (dedicated . t)
+               (preserve-size . (t . t))))
 
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
@@ -69,8 +74,49 @@
         scroll-margin 0)        ; important: scroll-margin>0 not yet supported
   :config
   (ultra-scroll-mode 1))
-;; End of personal settings
 
+(use-package eglot
+  :ensure t
+  :config
+    (add-to-list 'eglot-server-programs '(
+      (python-mode python-ts-mode)
+         "basedpyright-langserver" "--stdio"
+    ))
+    (setq-default
+       eglot-workspace-configuration
+       '(:basedpyright (
+           :typeCheckingMode "basic"
+         )
+         :basedpyright.analysis (
+           :diagnosticSeverityOverrides (
+             :reportUnusedCallResult "none"
+           )
+           :inlayHints (
+             :callArgumentNames :json-false
+           )
+         )))
+)
+
+(after! consult
+  (setq consult-preview-key 'any))
+
+; Fix paths for c libraries
+(setenv "LIBRARY_PATH" (concat (getenv "LIBRARY_PATH") ":/opt/homebrew/lib"))
+(setenv "CPATH" (concat (getenv "CPATH") ":/opt/homebrew/include"))
+
+;; Enable rgbds-mode for rgbasm files
+(require 'rgbds-mode)
+(add-to-list 'auto-mode-alist '("\\.rgbasm\\'" . rgbds-mode))
+
+;; accept completion from copilot and fallback to company
+;; (use-package! copilot
+;;   :hook (prog-mode . copilot-mode)
+;;   :bind (:map copilot-completion-map
+;;               ("<tab>" . 'copilot-accept-completion)
+;;               ("TAB" . 'copilot-accept-completion)
+;;               ("C-TAB" . 'copilot-accept-completion-by-word)
+;;               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+;; End of personal settings
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -103,3 +149,5 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+
